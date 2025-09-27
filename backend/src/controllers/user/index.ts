@@ -13,7 +13,7 @@ user.get("/me", authMiddleware, async (c) => {
   const foundUser = await UserRepository.findByField("id", me.id);
 
   if (!foundUser) {
-    throw new HTTPException(400, { message: `User ID ${me.id} not found` });
+    throw new HTTPException(400, { message: "User not found" });
   }
 
   const foundUserWithOutHashedPassword: Omit<User, "hashed_password"> = {
@@ -39,11 +39,12 @@ user.put("/me", authMiddleware, async (c) => {
     .object({
       username: z
         .string()
+        .min(4)
         .max(32)
         .regex(/^[A-z0-9_.]+$/),
       password: z.string().min(8),
     })
-    .safeParse(c.req.json());
+    .safeParse(await c.req.json());
 
   if (error) {
     throw new HTTPException(400, { message: error.message });
@@ -54,7 +55,7 @@ user.put("/me", authMiddleware, async (c) => {
   const foundUser = await UserRepository.findByField("id", me.id);
 
   if (!foundUser) {
-    throw new HTTPException(400, { message: `User ID ${me.id} not found` });
+    throw new HTTPException(400, { message: "User not found" });
   }
 
   const updatedUser = await UserRepository.update({
@@ -67,7 +68,7 @@ user.put("/me", authMiddleware, async (c) => {
   });
 
   if (!updatedUser) {
-    throw new HTTPException(400, { message: `User ID ${me.id} not found` });
+    throw new HTTPException(400, { message: "User not found" });
   }
 
   const updatedUserWithOutHashedPassword: Omit<User, "hashed_password"> = {
@@ -94,13 +95,13 @@ user.delete("/me", authMiddleware, async (c) => {
   const foundUser = await UserRepository.findByField("id", me.id);
 
   if (!foundUser) {
-    throw new HTTPException(400, { message: `User ID ${me.id} not found` });
+    throw new HTTPException(400, { message: "User not found" });
   }
 
   const deletedUser = await UserRepository.deleteByField("id", me.id);
 
   if (!deletedUser) {
-    throw new HTTPException(400, { message: `User ID ${me.id} not found` });
+    throw new HTTPException(400, { message: "User not found" });
   }
 
   const deletedUserWithOutHashedPassword: Omit<User, "hashed_password"> = {

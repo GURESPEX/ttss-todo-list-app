@@ -10,7 +10,7 @@ const todo = new Hono();
 todo.get("/todos", authMiddleware, async (c) => {
   const me = c.get("me");
 
-  const foundTodos = await TodoRepository.findAllByField("id", me.id);
+  const foundTodos = await TodoRepository.findAllByField("user_id", me.id);
 
   return c.json(
     Response.baseBodyObject({
@@ -33,7 +33,7 @@ todo.get("/todos/:id", authMiddleware, async (c) => {
   const foundTodo = await TodoRepository.findByField("id", id);
 
   if (!foundTodo) {
-    throw new HTTPException(400, { message: `Todo ID ${id} not found` });
+    throw new HTTPException(400, { message: "Todo not found" });
   }
 
   const me = c.get("me");
@@ -61,7 +61,7 @@ todo.post("/todos", authMiddleware, async (c) => {
       title: z.string().optional(),
       content: z.string(),
     })
-    .safeParse(c.req.json());
+    .safeParse(await c.req.json());
 
   if (error) {
     throw new HTTPException(400, { message: error.message });
@@ -93,7 +93,7 @@ todo.put("/todos/:id", authMiddleware, async (c) => {
       content: z.string(),
       is_done: z.boolean(),
     })
-    .safeParse({ id: c.req.param().id });
+    .safeParse({ id: c.req.param().id, ...(await c.req.json()) });
 
   if (error) {
     throw new HTTPException(400, { message: error.message });
@@ -103,7 +103,7 @@ todo.put("/todos/:id", authMiddleware, async (c) => {
 
   if (!foundTodo) {
     throw new HTTPException(400, {
-      message: `Todo ID ${payload.id} not found`,
+      message: "Todo not found",
     });
   }
 
@@ -122,7 +122,7 @@ todo.put("/todos/:id", authMiddleware, async (c) => {
 
   if (!updatedTodo) {
     throw new HTTPException(400, {
-      message: `Todo ID ${payload.id} not found`,
+      message: `Todo not found`,
     });
   }
 
@@ -138,7 +138,7 @@ todo.put("/todos/:id", authMiddleware, async (c) => {
 });
 
 todo.delete("/todos/:id", authMiddleware, async (c) => {
-  const { data: id, error } = z.string().safeParse({ id: c.req.param().id });
+  const { data: id, error } = z.string().safeParse(c.req.param().id);
 
   if (error) {
     throw new HTTPException(400, { message: error.message });
@@ -148,7 +148,7 @@ todo.delete("/todos/:id", authMiddleware, async (c) => {
 
   if (!foundTodo) {
     throw new HTTPException(400, {
-      message: `Todo ID ${id} not found`,
+      message: "Todo not found",
     });
   }
 
@@ -164,7 +164,7 @@ todo.delete("/todos/:id", authMiddleware, async (c) => {
 
   if (!deletedTodo) {
     throw new HTTPException(400, {
-      message: `Todo ID ${id} not found`,
+      message: "Todo not found",
     });
   }
 
