@@ -15,11 +15,12 @@ login.post("/login", async (c) => {
     .object({
       username: z
         .string()
+        .min(4)
         .max(32)
         .regex(/^[A-z0-9_.]+$/),
       password: z.string().min(8),
     })
-    .safeParse(c.req.json());
+    .safeParse(await c.req.json());
 
   if (error) {
     throw new HTTPException(400, { message: error.message });
