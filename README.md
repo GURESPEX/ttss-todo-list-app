@@ -1,6 +1,6 @@
 # TTSS - TODO List App : Requirements
 ## Login
-  - Use email and password to authenticate.
+  - Use username and password to authenticate.
   - If authenticated passed, response HTTP body with access-token and HTTP Only cookie with refresh-token.
     - Access token
       - Use access-token to manage resource. (expired in 15 minutes)
@@ -11,7 +11,7 @@
   - If authenticated failed, response error message.
 
 ## Register
-  - Required to specify username, email, password with confirm password to confirm to create user.
+  - Required to specify username and password with confirm password to confirm to create user.
 
 ## Entities
 ### todo
