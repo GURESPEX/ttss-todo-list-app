@@ -1,39 +1,37 @@
 export default abstract class RevokedTokenStore {
   private static _revokedTokens: RevokedToken[] = [];
 
-  public static get = (
-    token: RevokedToken["value"]
-  ): RevokedToken | undefined => {
+  public static get = (token: RevokedToken): RevokedToken | undefined => {
     const foundRevokedToken = this._revokedTokens.find(
-      (revokedToken) => revokedToken.value === token
+      (revokedToken) => revokedToken === token
     );
+
     return foundRevokedToken;
   };
 
-  public static add = (
-    token: RevokedToken["value"],
-    expired?: RevokedToken["expired"]
-  ): RevokedToken => {
+  public static add = (token: RevokedToken): RevokedToken => {
     const foundRevokedToken = this._revokedTokens.find(
-      (revokedToken) => revokedToken.value === token
+      (revokedToken) => revokedToken === token
     );
     if (foundRevokedToken) {
       return foundRevokedToken;
     }
-    const newRevokedToken: RevokedToken = { value: token, expired };
+    const newRevokedToken: RevokedToken = token;
     this._revokedTokens = [...this._revokedTokens, newRevokedToken];
+
     return newRevokedToken;
   };
 
-  public static remove = (token: RevokedToken["value"]) => {
+  public static remove = (token: RevokedToken) => {
     const foundRevokedTokens = this._revokedTokens.findIndex(
-      (revokedToken) => revokedToken.value === token,
+      (revokedToken) => revokedToken === token,
       []
     );
     const removedRevokedToken = this._revokedTokens.splice(
       foundRevokedTokens,
       1
     )[0];
+
     return removedRevokedToken;
   };
 
@@ -42,4 +40,4 @@ export default abstract class RevokedTokenStore {
   };
 }
 
-export type RevokedToken = { value: string; expired?: number };
+export type RevokedToken = string;

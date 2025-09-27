@@ -3,6 +3,7 @@ import { HTTPException } from "hono/http-exception";
 import { decode, verify } from "hono/jwt";
 import env from "../../env";
 import UserRepository, { User } from "../../repositories/user";
+import RevokedTokenStore from "../../utils/revoked-token";
 
 type Variables = {
   me: User;
@@ -21,6 +22,12 @@ const authMiddleware = createMiddleware<{ Variables: Variables }>(
     }
 
     if (!accessToken) {
+      throw new HTTPException(401, { message: "Unauthorized" });
+    }
+
+    const revokedToken = RevokedTokenStore.get(accessToken);
+
+    if (revokedToken) {
       throw new HTTPException(401, { message: "Unauthorized" });
     }
 

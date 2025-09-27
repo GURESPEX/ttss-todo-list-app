@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import { decode, sign, verify } from "hono/jwt";
 import env from "../../env";
 import { Response } from "../../utils/response";
+import RevokedTokenStore from "../../utils/revoked-token";
 
 const refresh = new Hono();
 
@@ -16,6 +17,14 @@ refresh.post("/refresh", async (c) => {
     throw new HTTPException(401, { message: "Refresh token not found" });
   }
 
+  const revokedToken = RevokedTokenStore.get(refreshToken);
+
+  if (revokedToken) {
+    throw new HTTPException(401, {
+      message: "Refresh token is exipred or invalid",
+    });
+  }
+
   const isRefreshTokenValid = verify(
     refreshToken,
     env.REFRESH_TOKEN_SECRET,
@@ -23,7 +32,9 @@ refresh.post("/refresh", async (c) => {
   );
 
   if (!isRefreshTokenValid) {
-    throw new HTTPException(401, { message: "Refresh token is invalid" });
+    throw new HTTPException(401, {
+      message: "Refresh token is exipred or invalid",
+    });
   }
 
   const decodedRefreshToken = decode(refreshToken);

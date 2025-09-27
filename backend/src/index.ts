@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import login from "./controllers/login";
+import logout from "./controllers/logout";
 import register from "./controllers/register";
 import todo from "./controllers/todo";
 import user from "./controllers/user";
@@ -9,6 +10,7 @@ import { Response } from "./utils/response";
 const app = new Hono().basePath("/api");
 
 app.route("/", login);
+app.route("/", logout);
 app.route("/", register);
 app.route("/", todo);
 app.route("/", user);
@@ -24,6 +26,7 @@ app.onError((error, c) => {
       error.status
     );
   }
+
   return c.json(
     Response.baseBodyObject({
       message: "Unknown exception",
