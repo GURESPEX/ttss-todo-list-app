@@ -21,7 +21,6 @@
 | title         | string   |               | default: "Untitled" |
 | content       | string   |               |                     |
 | is_done       | boolean  |               | required            |
-| todo_group_id | uuid     | todo_group.id |                     |
 | user_id       | uuid     | user.id       | required            |
 | created_at    | datetime |               | required            |
 | updated_at    | datetime |               |                     |
@@ -33,30 +32,12 @@
     - PUT /todos/:id : Update in-session user todo by id.
     - DELETE /todos/:id : ***Hard delete*** in-session user todo by id.
 
-### todo_group
-| Field         | DataType | Reference     | Rules               |
-|---------------|----------|---------------|---------------------|
-| id            | uuid     |               | primary key         |
-| name          | string   |               | default: "Unnamed"  |
-| todos         | uuid[]   | todo.id       | default: "Unnamed"  |
-| user_id       | uuid     | user.id       | required            |
-| created_at    | datetime |               | required            |
-| updated_at    | datetime |               |                     |
-      
-#### Services & Endpoints (Required access-token)
-    - GET /todoGroups : Get all in-session user todo groups.
-    - GET /todoGroups/:id : Get in-session user todo group by id.
-    - POST /todoGroups : Create todo group of in-session user.
-    - PUT /todoGroups/:id : Update in-session user todo group by id.
-    - DELETE /todoGroups/:id : ***Hard delete*** in-session user todo group by id.
-
 ### user (Hard deletion)
 #### Schema
 | Field           | DataType | Reference     | Rules               |
 |-----------------|----------|---------------|---------------------|
 | id              | uuid     |               | primary key         |
 | username        | string   |               | required            |
-| email           | string   |               | required            |
 | hashed_password | string   |               | required            |
 | created_at      | datetime |               | required            |
 | updated_at      | datetime |               |                     |
