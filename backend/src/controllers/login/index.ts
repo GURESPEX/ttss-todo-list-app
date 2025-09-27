@@ -53,7 +53,7 @@ login.post("/login", async (c) => {
       iat: dateNow.unix(),
       exp: dateNow.add(1, "week").unix(),
     },
-    env.ACCESS_TOKEN_SECRET,
+    env.REFRESH_TOKEN_SECRET,
     env.JWT_ALGORITHM
   );
 
