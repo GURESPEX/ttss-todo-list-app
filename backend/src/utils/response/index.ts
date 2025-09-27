@@ -23,7 +23,7 @@ export abstract class Response {
 type ResponseBaseParameter<T> =
   | {
       success: true;
-      result: T;
+      result?: T;
       message: string;
       status: StatusCode | (number & {});
     }
@@ -36,7 +36,7 @@ type ResponseBaseParameter<T> =
 type ResponseBaseReturn<T> =
   | {
       success: true;
-      result: T;
+      result?: T;
       message: string;
       status: StatusCode | (number & {});
     }
