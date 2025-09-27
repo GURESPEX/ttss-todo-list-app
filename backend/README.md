@@ -1,11 +1,7 @@
-To install dependencies:
-```sh
-bun install
-```
+# TTSS - TODO List Backend
+## Environment
+- Bun v1.2.22
 
-To run:
-```sh
-bun run dev
-```
-
-open http://localhost:3000
+## How to run this project?
+1. Run command bun install or bun i
+2. Run command bun run dev
