@@ -2,51 +2,62 @@ import { useCallback, useState } from "react";
 import Button from "../../ui/Button";
 import Checkbox from "../../ui/Checkbox";
 import Input from "../../ui/Input";
-import type { ButtonProps } from "../../ui/Button/type";
 import type { CheckboxProps } from "../../ui/Checkbox/type";
-import type { InputProps } from "../../ui/Input/type";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { authApi } from "../../../api/auth";
 
+const registerFieldValuesSchema = z.object({
+  username: z
+    .string()
+    .min(4)
+    .max(32)
+    .regex(/^[A-z0-9_.]+$/),
+  password: z.string().min(8),
+  confirmPassword: z.string().min(8),
+});
+
+type RegisterFieldValues = z.infer<typeof registerFieldValuesSchema>;
+
 const RegisterForm = () => {
-  const [RegisterFormState, setRegisterFormState] = useState<{ username: string; password: string; confirmPassword: string }>({ username: "", password: "", confirmPassword: "" });
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
 
-  const [register, { data: registerData, isLoading: isRegisterLoading }] = authApi.useRegisterMutation();
+  const [callRegister] = authApi.useRegisterMutation();
 
-  console.log(registerData);
+  const { register, handleSubmit, formState } = useForm<RegisterFieldValues>({ resolver: zodResolver(registerFieldValuesSchema) });
 
-  const handleChangeUsername = useCallback<Exclude<InputProps["onChange"], undefined>>((value) => {
-    setRegisterFormState((prev) => ({ ...prev, username: value ?? "" }));
+  const onSubmit = useCallback<SubmitHandler<RegisterFieldValues>>(
+    (data) => {
+      callRegister({
+        username: data.username,
+        password: data.password,
+      });
+    },
+    [callRegister],
+  );
+
+  const handleChangeIsShowPassword = useCallback<Exclude<CheckboxProps["onChange"], undefined>>((event) => {
+    setIsShowPassword(event.target.checked);
   }, []);
-
-  const handleChangePassword = useCallback<Exclude<InputProps["onChange"], undefined>>((value) => {
-    setRegisterFormState((prev) => ({ ...prev, password: value ?? "" }));
-  }, []);
-
-  const handleChangeConfirmPassword = useCallback<Exclude<InputProps["onChange"], undefined>>((value) => {
-    setRegisterFormState((prev) => ({ ...prev, confirmPassword: value ?? "" }));
-  }, []);
-
-  const handleChangeIsShowPassword = useCallback<Exclude<CheckboxProps["onChange"], undefined>>((value) => {
-    setIsShowPassword(value ?? false);
-  }, []);
-
-  const handleClickRegister = useCallback<Exclude<ButtonProps["onChange"], undefined>>(() => {
-    register({ username: RegisterFormState.username, password: RegisterFormState.password });
-  }, [register, RegisterFormState.password, RegisterFormState.username]);
 
   return (
-    <div>
-      <Input type="text" value={RegisterFormState.username} onChange={handleChangeUsername} placeholder="Username" />
-      <Input type={isShowPassword ? "text" : "password"} value={RegisterFormState.password} onChange={handleChangePassword} placeholder="Password" />
-      <Input type={isShowPassword ? "text" : "password"} value={RegisterFormState.confirmPassword} onChange={handleChangeConfirmPassword} placeholder="Confirm password" />
+    <form className="flex flex-col gap-2 rounded-md border p-4" onSubmit={handleSubmit(onSubmit)}>
+      <h2 className="text-2xl">Register</h2>
+      <form action=""></form>
+      <Input type="text" placeholder="Username" {...register("username")} />
+      {formState.errors.username?.message}
+      <Input type={isShowPassword ? "text" : "password"} placeholder="Password" {...register("password")} />
+      {formState.errors.password?.message}
+      <Input type={isShowPassword ? "text" : "password"} placeholder="Confirm password" {...register("confirmPassword")} />
+      {formState.errors.confirmPassword?.message}
       <Checkbox checked={isShowPassword} onChange={handleChangeIsShowPassword}>
         Show password
       </Checkbox>
-      <Button onClick={handleClickRegister} disabled={isRegisterLoading}>
+      <Button type="submit" color="primary">
         Register
       </Button>
-    </div>
+    </form>
   );
 };
 
