@@ -41,7 +41,7 @@ register.post("/register", async (c) => {
 
   const createdUserWithOutHashedPassword: Omit<User, "hashed_password"> = {
     id: createdUser.id,
-    username: createdUser.id,
+    username: createdUser.username,
     created_at: createdUser.created_at,
     updated_at: createdUser.updated_at,
   };

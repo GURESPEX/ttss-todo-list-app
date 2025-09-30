@@ -6,8 +6,15 @@ import todo from "./controllers/todo";
 import user from "./controllers/user";
 import { HTTPException } from "hono/http-exception";
 import { Response } from "./utils/response";
+import { cors } from "hono/cors";
 
 const app = new Hono().basePath("/api");
+
+app.use(
+  cors({
+    origin: "http://localhost:5000",
+  })
+);
 
 app.route("/", login);
 app.route("/", logout);
