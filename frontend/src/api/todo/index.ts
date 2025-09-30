@@ -1,8 +1,9 @@
 import api from "..";
+import type { TodoApi } from "./type";
 
 const todoApi = api.injectEndpoints({
   endpoints: (build) => ({
-    getAll: build.query({
+    getAll: build.query<TodoApi["GetAll"]["Transformed"], TodoApi["GetAll"]["Request"]>({
       providesTags: ["todo"],
       query: () => {
         return {
@@ -11,7 +12,7 @@ const todoApi = api.injectEndpoints({
         };
       },
     }),
-    getById: build.query({
+    getById: build.query<TodoApi["GetById"]["Transformed"], TodoApi["GetById"]["Request"]>({
       providesTags: (_result, _error, arg) => [{ type: "todo", id: arg.id }],
       query: (arg) => {
         return {
@@ -20,7 +21,7 @@ const todoApi = api.injectEndpoints({
         };
       },
     }),
-    create: build.mutation({
+    create: build.mutation<TodoApi["Create"]["Transformed"], TodoApi["Create"]["Request"]>({
       invalidatesTags: ["todo"],
       query: (arg) => {
         return {
@@ -33,7 +34,7 @@ const todoApi = api.injectEndpoints({
         };
       },
     }),
-    update: build.mutation({
+    update: build.mutation<TodoApi["Update"]["Transformed"], TodoApi["Update"]["Request"]>({
       invalidatesTags: (_result, _error, arg) => [{ type: "todo", id: arg.id }],
       query: (arg) => {
         return {
@@ -47,7 +48,7 @@ const todoApi = api.injectEndpoints({
         };
       },
     }),
-    delete: build.mutation({
+    delete: build.mutation<TodoApi["Delete"]["Transformed"], TodoApi["Delete"]["Request"]>({
       invalidatesTags: ["todo"],
       query: (arg) => {
         return {

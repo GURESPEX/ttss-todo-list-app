@@ -1,8 +1,9 @@
 import api from "..";
+import type { UserApi } from "./type";
 
 const userApi = api.injectEndpoints({
   endpoints: (build) => ({
-    getMe: build.query({
+    getMe: build.query<UserApi["GetMe"]["Transformed"], UserApi["GetMe"]["Request"]>({
       providesTags: ["user"],
       query: () => {
         return {
@@ -11,11 +12,11 @@ const userApi = api.injectEndpoints({
         };
       },
     }),
-    updateMe: build.mutation({
+    updateMe: build.mutation<UserApi["UpdateMe"]["Transformed"], UserApi["UpdateMe"]["Request"]>({
       invalidatesTags: ["user"],
       query: (arg) => {
         return {
-          url: `/me/${arg.id}`,
+          url: "/me",
           method: "put",
           body: {
             username: arg.username,
@@ -24,11 +25,11 @@ const userApi = api.injectEndpoints({
         };
       },
     }),
-    deleteMe: build.mutation({
+    deleteMe: build.mutation<UserApi["DeleteMe"]["Transformed"], UserApi["DeleteMe"]["Request"]>({
       invalidatesTags: ["user"],
-      query: (arg) => {
+      query: () => {
         return {
-          url: `/me/${arg.id}`,
+          url: "/me",
           method: "delete",
         };
       },

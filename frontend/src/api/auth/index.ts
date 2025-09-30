@@ -1,8 +1,9 @@
 import api from "..";
+import type { AuthApi } from "./type";
 
 const authApi = api.injectEndpoints({
   endpoints: (build) => ({
-    register: build.mutation({
+    register: build.mutation<AuthApi["Register"]["Transformed"], AuthApi["Register"]["Request"]>({
       query: (arg) => {
         return {
           url: "/register",
@@ -14,7 +15,7 @@ const authApi = api.injectEndpoints({
         };
       },
     }),
-    login: build.mutation({
+    login: build.mutation<AuthApi["Login"]["Transformed"], AuthApi["Login"]["Request"]>({
       query: (arg) => {
         return {
           url: "/login",
@@ -26,7 +27,7 @@ const authApi = api.injectEndpoints({
         };
       },
     }),
-    logout: build.mutation({
+    logout: build.mutation<AuthApi["Logout"]["Transformed"], AuthApi["Logout"]["Request"]>({
       query: () => {
         return {
           url: "/logout",
