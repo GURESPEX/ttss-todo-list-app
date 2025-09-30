@@ -1,3 +1,3 @@
-import type { PropsWithChildren } from "react";
+import type { ComponentProps } from "react";
 
-export type ButtonProps = {} & PropsWithChildren;
+export type ButtonProps = ComponentProps<"button">;

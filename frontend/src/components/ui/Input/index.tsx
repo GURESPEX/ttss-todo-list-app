@@ -1,7 +1,7 @@
 import type { InputProps } from "./type";
 
 const Input = (props: InputProps) => {
-  return <>Input</>;
+  return <input {...props} />;
 };
 
 export default Input;
