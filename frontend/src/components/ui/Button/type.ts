@@ -1,3 +1,3 @@
 import type { ComponentProps } from "react";
 
-export type ButtonProps = ComponentProps<"button"> & { color?: "primary" | "danger" | "warning" | "success" | "default" };
+export type ButtonProps = ComponentProps<"button"> & { loading?: boolean; color?: "primary" | "danger" | "warning" | "success" | "default" };
