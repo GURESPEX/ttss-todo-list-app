@@ -23,18 +23,21 @@ type RegisterFieldValues = z.infer<typeof registerFieldValuesSchema>;
 const RegisterForm = () => {
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
 
-  const [callRegister] = authApi.useRegisterMutation();
+  const [callRegister, { isLoading }] = authApi.useRegisterMutation();
 
-  const { register, handleSubmit, formState } = useForm<RegisterFieldValues>({ resolver: zodResolver(registerFieldValuesSchema) });
+  const { register, handleSubmit, formState, reset } = useForm<RegisterFieldValues>({ resolver: zodResolver(registerFieldValuesSchema) });
 
   const onSubmit = useCallback<SubmitHandler<RegisterFieldValues>>(
-    (data) => {
-      callRegister({
+    async (data) => {
+      const { error } = await callRegister({
         username: data.username,
         password: data.password,
       });
+      if (!error) {
+        reset();
+      }
     },
-    [callRegister],
+    [callRegister, reset],
   );
 
   const handleChangeIsShowPassword = useCallback<Exclude<CheckboxProps["onChange"], undefined>>((event) => {
@@ -42,7 +45,7 @@ const RegisterForm = () => {
   }, []);
 
   return (
-    <form className="flex flex-col gap-2 rounded-md border p-4" onSubmit={handleSubmit(onSubmit)}>
+    <form className="flex flex-col gap-2 rounded-md border border-slate-200 p-4" onSubmit={handleSubmit(onSubmit)}>
       <h2 className="text-2xl">Register</h2>
       <form action=""></form>
       <Input type="text" placeholder="Username" {...register("username")} />
@@ -54,7 +57,7 @@ const RegisterForm = () => {
       <Checkbox checked={isShowPassword} onChange={handleChangeIsShowPassword}>
         Show password
       </Checkbox>
-      <Button type="submit" color="primary">
+      <Button className="uppercase" type="submit" color="primary" loading={isLoading} disabled={!formState.isDirty || !formState.isValid}>
         Register
       </Button>
     </form>

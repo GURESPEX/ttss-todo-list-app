@@ -3,7 +3,7 @@ import env from "../env";
 
 const api = createApi({
   tagTypes: ["user", "todo"],
-  baseQuery: fetchBaseQuery({ baseUrl: env.API_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: env.API_URL, credentials: "include" }),
   endpoints: () => ({}),
 });
 

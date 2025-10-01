@@ -5,10 +5,13 @@ const todoApi = api.injectEndpoints({
   endpoints: (build) => ({
     getAll: build.query<TodoApi["GetAll"]["Transformed"], TodoApi["GetAll"]["Request"]>({
       providesTags: ["todo"],
-      query: () => {
+      query: (arg) => {
         return {
           url: "/todos",
           method: "get",
+          headers: {
+            Authorization: `Bearer ${arg.access_token}`,
+          },
         };
       },
     }),
@@ -18,6 +21,9 @@ const todoApi = api.injectEndpoints({
         return {
           url: `/todos/${arg.id}`,
           method: "get",
+          headers: {
+            Authorization: `Bearer ${arg.access_token}`,
+          },
         };
       },
     }),
@@ -30,6 +36,9 @@ const todoApi = api.injectEndpoints({
           body: {
             title: arg.title,
             content: arg.content,
+          },
+          headers: {
+            Authorization: `Bearer ${arg.access_token}`,
           },
         };
       },
@@ -45,6 +54,9 @@ const todoApi = api.injectEndpoints({
             content: arg.content,
             is_done: arg.is_done,
           },
+          headers: {
+            Authorization: `Bearer ${arg.access_token}`,
+          },
         };
       },
     }),
@@ -54,6 +66,9 @@ const todoApi = api.injectEndpoints({
         return {
           url: `/todos/${arg.id}`,
           method: "delete",
+          headers: {
+            Authorization: `Bearer ${arg.access_token}`,
+          },
         };
       },
     }),

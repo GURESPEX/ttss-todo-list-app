@@ -5,10 +5,13 @@ const userApi = api.injectEndpoints({
   endpoints: (build) => ({
     getMe: build.query<UserApi["GetMe"]["Transformed"], UserApi["GetMe"]["Request"]>({
       providesTags: ["user"],
-      query: () => {
+      query: (arg) => {
         return {
           url: "/me",
           method: "get",
+          headers: {
+            Authorization: `Bearer ${arg.access_token}`,
+          },
         };
       },
     }),
@@ -22,15 +25,21 @@ const userApi = api.injectEndpoints({
             username: arg.username,
             password: arg.password,
           },
+          headers: {
+            Authorization: `Bearer ${arg.access_token}`,
+          },
         };
       },
     }),
     deleteMe: build.mutation<UserApi["DeleteMe"]["Transformed"], UserApi["DeleteMe"]["Request"]>({
       invalidatesTags: ["user"],
-      query: () => {
+      query: (arg) => {
         return {
           url: "/me",
           method: "delete",
+          headers: {
+            Authorization: `Bearer ${arg.access_token}`,
+          },
         };
       },
     }),

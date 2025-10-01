@@ -28,10 +28,13 @@ const authApi = api.injectEndpoints({
       },
     }),
     logout: build.mutation<AuthApi["Logout"]["Transformed"], AuthApi["Logout"]["Request"]>({
-      query: () => {
+      query: (arg) => {
         return {
           url: "/logout",
           method: "post",
+          headers: {
+            Authorization: `Bearer ${arg.access_token}`,
+          },
         };
       },
     }),
