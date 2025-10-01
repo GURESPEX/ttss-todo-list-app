@@ -3,3 +3,10 @@ export type EndpointType<REQUEST, RESPONSE, TRANSFORMED> = {
   Response: RESPONSE;
   Transformed: TRANSFORMED;
 };
+
+export type ReponseResult<RESULT> = {
+  message: string;
+  result: RESULT;
+  success: true;
+  status: number;
+};
