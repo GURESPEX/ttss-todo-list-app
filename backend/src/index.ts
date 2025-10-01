@@ -13,6 +13,7 @@ const app = new Hono().basePath("/api");
 app.use(
   cors({
     origin: "http://localhost:5000",
+    credentials: true,
   })
 );
 
