@@ -38,6 +38,14 @@ const authApi = api.injectEndpoints({
         };
       },
     }),
+    refresh: build.mutation<AuthApi["Refresh"]["Transformed"], AuthApi["Refresh"]["Request"]>({
+      query: () => {
+        return {
+          url: "/refresh",
+          method: "post",
+        };
+      },
+    }),
   }),
   overrideExisting: "throw",
 });
