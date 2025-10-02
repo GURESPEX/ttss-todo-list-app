@@ -7,6 +7,7 @@ import RevokedTokenStore from "../../utils/revoked-token";
 
 type Variables = {
   me: User;
+  access_token: string;
 };
 
 const authMiddleware = createMiddleware<{ Variables: Variables }>(
@@ -31,13 +32,9 @@ const authMiddleware = createMiddleware<{ Variables: Variables }>(
       throw new HTTPException(401, { message: "Unauthorized" });
     }
 
-    const isAccessTokenValid = verify(
-      accessToken,
-      env.ACCESS_TOKEN_SECRET,
-      env.JWT_ALGORITHM
-    );
-
-    if (!isAccessTokenValid) {
+    try {
+      await verify(accessToken, env.ACCESS_TOKEN_SECRET, env.JWT_ALGORITHM);
+    } catch {
       throw new HTTPException(401, { message: "Unauthorized" });
     }
 
@@ -61,6 +58,7 @@ const authMiddleware = createMiddleware<{ Variables: Variables }>(
     }
 
     c.set("me", foundUser);
+    c.set("access_token", accessToken);
 
     await next();
   }

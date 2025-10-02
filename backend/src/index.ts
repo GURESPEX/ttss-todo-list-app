@@ -7,6 +7,7 @@ import user from "./controllers/user";
 import { HTTPException } from "hono/http-exception";
 import { Response } from "./utils/response";
 import { cors } from "hono/cors";
+import refresh from "./controllers/refresh";
 
 const app = new Hono().basePath("/api");
 
@@ -20,6 +21,7 @@ app.use(
 app.route("/", login);
 app.route("/", logout);
 app.route("/", register);
+app.route("/", refresh);
 app.route("/", todo);
 app.route("/", user);
 

@@ -69,7 +69,7 @@ login.post("/login", async (c) => {
       sub: foundUser.id,
       nbf: dateNow.unix(),
       iat: dateNow.unix(),
-      exp: dateNow.add(5, "minute").unix(),
+      exp: dateNow.add(30, "second").unix(),
     },
     env.ACCESS_TOKEN_SECRET,
     env.JWT_ALGORITHM

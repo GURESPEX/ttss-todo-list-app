@@ -3,7 +3,7 @@ import { HTTPException } from "hono/http-exception";
 import UserRepository from "../../repositories/user";
 import { getCookie } from "hono/cookie";
 import dayjs from "dayjs";
-import { decode, sign, verify } from "hono/jwt";
+import { decode, sign, verify, jwt } from "hono/jwt";
 import env from "../../env";
 import { Response } from "../../utils/response";
 import RevokedTokenStore from "../../utils/revoked-token";
@@ -21,19 +21,15 @@ refresh.post("/refresh", async (c) => {
 
   if (revokedToken) {
     throw new HTTPException(401, {
-      message: "Refresh token is exipred or invalid",
+      message: "Refresh token is expired or invalid",
     });
   }
 
-  const isRefreshTokenValid = verify(
-    refreshToken,
-    env.REFRESH_TOKEN_SECRET,
-    env.JWT_ALGORITHM
-  );
-
-  if (!isRefreshTokenValid) {
+  try {
+    await verify(refreshToken, env.REFRESH_TOKEN_SECRET, env.JWT_ALGORITHM);
+  } catch {
     throw new HTTPException(401, {
-      message: "Refresh token is exipred or invalid",
+      message: "Refresh token is expired or invalid",
     });
   }
 
@@ -63,7 +59,7 @@ refresh.post("/refresh", async (c) => {
       sub: foundUser.id,
       nbf: dateNow.unix(),
       iat: dateNow.unix(),
-      exp: dateNow.add(5, "minute").unix(),
+      exp: dateNow.add(30, "second").unix(),
     },
     env.ACCESS_TOKEN_SECRET,
     env.JWT_ALGORITHM
