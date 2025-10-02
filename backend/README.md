@@ -1,7 +1,7 @@
-# TTSS - TODO List Backend
+# TTSS - TODO List Back-end
 ## Environment
-- Bun v1.2.22
+- Node.js v24.8.0
 
 ## How to run this project?
-1. Run command bun install or bun i
-2. Run command bun run dev
+1. Run command npm install or npm i
+2. Run command npm run dev
