@@ -44,7 +44,7 @@ const todoApi = api.injectEndpoints({
       },
     }),
     update: build.mutation<TodoApi["Update"]["Transformed"], TodoApi["Update"]["Request"]>({
-      invalidatesTags: (_result, _error, arg) => [{ type: "todo", id: arg.id }],
+      invalidatesTags: (_result, _error, arg) => [{ type: "todo" }, { type: "todo", id: arg.id }],
       query: (arg) => {
         return {
           url: `/todos/${arg.id}`,
