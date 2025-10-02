@@ -33,7 +33,6 @@ export default abstract class TodoRepository {
       title: newTodo.title || "Untitled",
       is_done: false,
       created_at: dateNow,
-      updated_at: dateNow,
     };
     this._todos = [...this._todos, createdTodo];
     return createdTodo;

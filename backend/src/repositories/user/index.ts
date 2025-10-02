@@ -32,7 +32,6 @@ export default abstract class UserRepository {
       ...payload,
       id: Generator.UUID(),
       created_at: dateNow,
-      updated_at: dateNow,
     };
     this._users = [...this._users, createdUser];
     return createdUser;
