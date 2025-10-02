@@ -1,8 +1,9 @@
+import React from "react";
 import { cn } from "../../../utils";
 import type { InputProps } from "./type";
 
-const Input = (props: InputProps) => {
-  return <input className={cn("min-h-8 rounded border border-slate-200 px-2 outline-none placeholder:text-black/25", props.className)} {...props} />;
+const Input = ({ className, ...props }: InputProps) => {
+  return <input className={cn("min-h-8 rounded border border-slate-200 bg-white px-2 outline-none placeholder:text-slate-300", className)} {...props} />;
 };
 
-export default Input;
+export default React.memo(Input);
