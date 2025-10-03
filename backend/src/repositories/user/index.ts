@@ -72,12 +72,12 @@ export default abstract class UserRepository {
     field: T,
     value: User[T]
   ): Promise<User[]> => {
-    const deletedUsers = this._users.reduce<User[]>((result, user) => {
+    const usersAfterDeleted = this._users.reduce<User[]>((result, user) => {
       if (user[field] === value) return result;
       return [...result, user];
     }, []);
-    this._users = deletedUsers;
-    return deletedUsers;
+    this._users = usersAfterDeleted;
+    return usersAfterDeleted;
   };
 }
 
