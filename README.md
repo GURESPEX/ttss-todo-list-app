@@ -20,7 +20,7 @@
 ## Refresh Token (Additional challenge)
   - Required refresh token from client (HttpOnly cookie) to get new access token.
 #### Services & Endpoints
-    - POST /refresh : Just register 😃.
+    - POST /refresh : Just refresh the access-token with refresh-token endpoint 😃.
 
 ## Entities
 ### Todo
