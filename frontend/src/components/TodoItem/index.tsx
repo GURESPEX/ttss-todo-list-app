@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm, type ControllerRenderProps, type SubmitHandler } from "react-hook-form";
 import type { ButtonProps } from "../ui/Button/type";
 import Button from "../ui/Button";
-import { Check, Trash2, Undo2 } from "lucide-react";
+import { Check, Save, Trash2, Undo2 } from "lucide-react";
 import dayjs from "dayjs";
 import Skeleton from "../ui/Skeleton";
 
@@ -126,6 +126,7 @@ const TodoItem = (props: TodoItemProps) => {
       <textarea className="h-full resize-none rounded border border-slate-200 bg-slate-100 p-2 transition-all outline-none placeholder:text-slate-300" {...register("content")} rows={3} placeholder="No content" />
       <div className="flex gap-2">
         <Controller name="is_done" control={control} render={({ field }) => <Button type="button" className="flex-1" onClick={handleToggleIsDone(field)} loading={isUpdating} disabled={field.disabled} icon={field.value ? <Undo2 /> : <Check />} />} />
+        <Button variant="outline" loading={isDeleting} icon={<Save />} />
         {(props.showDelete ?? false) ? <Button type="button" color="danger" variant={isConfirmDelete ? "solid" : "outline"} loading={isDeleting} icon={isConfirmDelete ? <Check /> : <Trash2 />} onClick={handleDelete} onBlur={handleBlurDelete} /> : null}
       </div>
       <div className="flex justify-end">
