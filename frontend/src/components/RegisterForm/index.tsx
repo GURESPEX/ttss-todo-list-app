@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useLayoutEffect, useState } from "react";
 import Button from "../ui/Button";
 import Checkbox from "../ui/Checkbox";
 import Input from "../ui/Input";
@@ -26,7 +26,24 @@ const RegisterForm = () => {
 
   const [callRegister, { isLoading }] = authApi.useRegisterMutation();
 
-  const { register, handleSubmit, formState, reset, setError } = useForm<RegisterFieldValues>({ resolver: zodResolver(registerFieldValuesSchema) });
+  const { register, handleSubmit, formState, reset, setError, clearErrors, subscribe } = useForm<RegisterFieldValues>({ resolver: zodResolver(registerFieldValuesSchema) });
+
+  useLayoutEffect(() => {
+    const callback = subscribe({
+      name: ["password", "confirmPassword"],
+      formState: {
+        values: true,
+      },
+      callback: (data) => {
+        if (data.values.password !== data.values.confirmPassword) {
+          setError("root", { message: "Confirm password is not same as password" });
+        } else {
+          clearErrors("root");
+        }
+      },
+    });
+    return () => callback();
+  }, [clearErrors, setError, subscribe]);
 
   const onSubmit = useCallback<SubmitHandler<RegisterFieldValues>>(
     async (data) => {
@@ -77,9 +94,7 @@ const RegisterForm = () => {
           )}
         </Label>
       </div>
-
       <div className="text-sm text-red-500">{formState.errors.root?.message}</div>
-
       <Checkbox checked={isShowPassword} onChange={handleChangeIsShowPassword}>
         Show password
       </Checkbox>
