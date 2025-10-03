@@ -11,7 +11,12 @@ const logout = new Hono();
 logout.post("/logout", authMiddleware, async (c) => {
   const accessToken = c.get("access_token");
 
-  RevokedTokenStore.add(accessToken);
+  if (accessToken) {
+    try {
+      await verify(accessToken, env.ACCESS_TOKEN_SECRET, env.JWT_ALGORITHM);
+      RevokedTokenStore.add(accessToken);
+    } catch {}
+  }
 
   const refreshToken = getCookie(c, "refresh-token");
 
