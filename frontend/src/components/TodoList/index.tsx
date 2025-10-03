@@ -35,7 +35,7 @@ const TodoList = () => {
       <Divider className="bg-slate-200" />
       <div className="flex justify-end">
         <p className="text-2xl font-bold">
-          {todos.reduce<number>((result, todo) => (!todo.is_done ? ++result : result), 0)}/{todos.length} Item{todos.length > 1 ? "s" : null}
+          {todos.length - todos.reduce<number>((result, todo) => (!todo.is_done ? ++result : result), 0)}/{todos.length} Item{todos.length > 1 ? "s" : null}
         </p>
       </div>
       <div className="relative grid grid-cols-[repeat(auto-fill,_minmax(256px,_1fr))] gap-2">
