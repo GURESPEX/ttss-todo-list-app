@@ -65,9 +65,7 @@ const LoginForm = () => {
       <Checkbox checked={isShowPassword} onChange={handleChangeIsShowPassword}>
         Show password
       </Checkbox>
-
       <div className="text-sm text-red-500">{formState.errors.root?.message}</div>
-
       <Button loading={loginHandler.loginState.isLoading}>Login</Button>
     </form>
   );
