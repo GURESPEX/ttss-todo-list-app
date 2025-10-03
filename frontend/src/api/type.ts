@@ -7,6 +7,6 @@ export type EndpointType<REQUEST, RESPONSE, TRANSFORMED> = {
 export type ReponseResult<RESULT> = {
   message: string;
   result: RESULT;
-  success: true;
+  success: boolean;
   status: number;
 };

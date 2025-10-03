@@ -20,7 +20,9 @@ export default abstract class UserRepository {
     value: User[T]
   ): Promise<User | undefined> => {
     const foundUser = this._users.find((user) => user[field] === value);
-    if (!foundUser) return foundUser;
+    if (!foundUser) {
+      return foundUser;
+    }
     return foundUser;
   };
 
@@ -73,7 +75,9 @@ export default abstract class UserRepository {
     value: User[T]
   ): Promise<User[]> => {
     const usersAfterDeleted = this._users.reduce<User[]>((result, user) => {
-      if (user[field] === value) return result;
+      if (user[field] === value) {
+        return result;
+      }
       return [...result, user];
     }, []);
     this._users = usersAfterDeleted;

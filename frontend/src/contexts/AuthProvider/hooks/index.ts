@@ -25,7 +25,7 @@ export const useAuth = () => {
 
   // Refresh token
 
-  const getUsernameAndAccessTokenByRefreshToken = useCallback(async () => {
+  const _getUsernameAndAccessTokenByRefreshToken = useCallback(async () => {
     const { data: refreshData, error: refreshError } = await callRefresh();
     if (refreshError || !refreshData) {
       return;
@@ -40,7 +40,7 @@ export const useAuth = () => {
   const refresh = useCallback(
     async (callback?: (user: Exclude<AuthProviderState, undefined>) => Promise<boolean | undefined> | boolean | undefined) => {
       if (!callback) {
-        const user = await getUsernameAndAccessTokenByRefreshToken();
+        const user = await _getUsernameAndAccessTokenByRefreshToken();
         setState(user);
         return;
       }
@@ -55,7 +55,7 @@ export const useAuth = () => {
         return;
       }
 
-      const user = await getUsernameAndAccessTokenByRefreshToken();
+      const user = await _getUsernameAndAccessTokenByRefreshToken();
 
       if (!user) {
         return;
@@ -64,7 +64,7 @@ export const useAuth = () => {
       await callback?.(user);
       setState(user);
     },
-    [getUsernameAndAccessTokenByRefreshToken, setState, state],
+    [_getUsernameAndAccessTokenByRefreshToken, setState, state],
   );
 
   // Login
@@ -94,7 +94,7 @@ export const useAuth = () => {
       return;
     }
 
-    const user = await getUsernameAndAccessTokenByRefreshToken();
+    const user = await _getUsernameAndAccessTokenByRefreshToken();
 
     if (!user) {
       return;
@@ -105,7 +105,7 @@ export const useAuth = () => {
       return;
     }
     setState(undefined);
-  }, [callLogout, getUsernameAndAccessTokenByRefreshToken, setState, state]);
+  }, [callLogout, _getUsernameAndAccessTokenByRefreshToken, setState, state]);
 
   // Effect handler
 

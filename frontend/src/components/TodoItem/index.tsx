@@ -103,7 +103,9 @@ const TodoItem = (props: TodoItemProps) => {
       return;
     }
     setIsConfirmDelete(true);
-    if (!isConfirmDelete) return;
+    if (!isConfirmDelete) {
+      return;
+    }
     refreshHandler.refresh(async (refreshedUser) => {
       const { error } = await callDeleteTodo({ access_token: refreshedUser.access_token, id: todo.id });
       if (error) {

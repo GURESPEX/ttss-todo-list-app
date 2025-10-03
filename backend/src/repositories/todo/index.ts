@@ -77,7 +77,9 @@ export default abstract class TodoRepository {
     value: Todo[T]
   ): Promise<Todo[]> => {
     const deletedTodos = this._todos.reduce<Todo[]>((result, todo) => {
-      if (todo[field] === value) return result;
+      if (todo[field] === value) {
+        return result;
+      }
       return [...result, todo];
     }, []);
     this._todos = deletedTodos;

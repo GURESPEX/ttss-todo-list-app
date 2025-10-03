@@ -7,7 +7,7 @@ const Label = ({ className, label, ...props }: LabelProps) => {
   return (
     <div className="flex w-full flex-col gap-1">
       {label ? (
-        <label htmlFor="title" className={cn("text-sm font-semibold text-slate-600", className)} {...props}>
+        <label htmlFor={id} className={cn("text-sm font-semibold text-slate-600", className)} {...props}>
           {label}
         </label>
       ) : null}

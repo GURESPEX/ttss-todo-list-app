@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useLayoutEffect, useMemo, useState } from "react";
 import { todoApi } from "../../api/todo";
 import { useAuth } from "../../contexts/AuthProvider/hooks";
 import CreateTodoForm from "../CreateTodoForm";
@@ -14,13 +14,20 @@ const TodoList = () => {
 
   const { user } = useAuth();
 
-  const { data: todosData } = todoApi.useGetAllQuery({ access_token: user!.access_token });
+  const [callGetAll, { data: todosData }] = todoApi.useLazyGetAllQuery();
 
-  const todos = useMemo(() => todosData?.result ?? [], [todosData?.result]);
+  useLayoutEffect(() => {
+    if (!user) {
+      return;
+    }
+    callGetAll({ access_token: user.access_token });
+  }, [callGetAll, user]);
 
   const handleToggleShowAll = useCallback<Exclude<ButtonProps["onClick"], undefined>>(() => {
     setIsShowAll((prev) => !prev);
   }, []);
+
+  const todos = useMemo(() => todosData?.result ?? [], [todosData?.result]);
 
   const filteredTodos = useMemo<Todo[]>(() => todos.filter((todo) => isShowAll || !todo.is_done), [todos, isShowAll]);
 
