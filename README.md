@@ -23,7 +23,7 @@
     - POST /refresh : Just refresh the access-token with refresh-token endpoint 😃.
 
 ## Entities
-### Todo
+### Todo (Hard deletion)
 | Field         | DataType | Reference     | Rules               |
 |---------------|----------|---------------|---------------------|
 | id            | uuid     |               | primary key         |
@@ -52,6 +52,6 @@
 | updated_at      | datetime |               |                     |
 
 #### Services & Endpoints (Required access-token)
-    - GET /me : Get in-session user.
-    - PUT /me : Update in-session user.
-    - DELETE /me : ***Hard delete*** in-session user.
+    - GET /users/me : Get in-session user.
+    - PUT /users/me : Update in-session user.
+    - DELETE /users/me : ***Hard delete*** in-session user.
