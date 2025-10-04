@@ -42,7 +42,6 @@
     - DELETE /todos/:id : ***Hard delete*** in-session user todo by id.
 
 ### User (Hard deletion)
-#### Schema
 | Field           | DataType | Reference     | Rules               |
 |-----------------|----------|---------------|---------------------|
 | id              | uuid     |               | primary key         |
