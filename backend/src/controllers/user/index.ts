@@ -7,7 +7,7 @@ import z from "zod";
 
 const user = new Hono();
 
-user.get("/me", authMiddleware, async (c) => {
+user.get("/users/me", authMiddleware, async (c) => {
   const me = c.get("me");
 
   const foundUser = await UserRepository.findByField("id", me.id);
@@ -34,7 +34,7 @@ user.get("/me", authMiddleware, async (c) => {
   );
 });
 
-user.put("/me", authMiddleware, async (c) => {
+user.put("/users/me", authMiddleware, async (c) => {
   const { data: payload, error } = z
     .object({
       username: z
@@ -89,7 +89,7 @@ user.put("/me", authMiddleware, async (c) => {
   );
 });
 
-user.delete("/me", authMiddleware, async (c) => {
+user.delete("/users/me", authMiddleware, async (c) => {
   const me = c.get("me");
 
   const foundUser = await UserRepository.findByField("id", me.id);

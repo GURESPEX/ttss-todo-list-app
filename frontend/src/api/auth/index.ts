@@ -16,6 +16,7 @@ const authApi = api.injectEndpoints({
       },
     }),
     login: build.mutation<AuthApi["Login"]["Transformed"], AuthApi["Login"]["Request"]>({
+      invalidatesTags: ["user", "todo"],
       query: (arg) => {
         return {
           url: "/login",
@@ -28,6 +29,7 @@ const authApi = api.injectEndpoints({
       },
     }),
     logout: build.mutation<AuthApi["Logout"]["Transformed"], AuthApi["Logout"]["Request"]>({
+      invalidatesTags: ["user", "todo"],
       query: (arg) => {
         return {
           url: "/logout",
@@ -39,6 +41,7 @@ const authApi = api.injectEndpoints({
       },
     }),
     refresh: build.mutation<AuthApi["Refresh"]["Transformed"], AuthApi["Refresh"]["Request"]>({
+      invalidatesTags: ["user", "todo"],
       query: () => {
         return {
           url: "/refresh",

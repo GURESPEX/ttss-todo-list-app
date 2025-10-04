@@ -156,7 +156,7 @@ todo.delete("/todos/:id", authMiddleware, async (c) => {
 
   if (foundTodo.user_id !== me.id) {
     throw new HTTPException(403, {
-      message: `You don't have permission to update this todo`,
+      message: `You don't have permission to delete this todo`,
     });
   }
 

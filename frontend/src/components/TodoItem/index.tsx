@@ -1,5 +1,4 @@
 import z from "zod";
-import type { Todo } from "../../api/todo/type";
 import React, { useCallback, useLayoutEffect, useMemo, useState, type ComponentProps } from "react";
 import { useAuth } from "../../contexts/AuthProvider/hooks";
 import { todoApi } from "../../api/todo";
@@ -10,6 +9,7 @@ import Button from "../ui/Button";
 import { Check, Save, Trash2, Undo2 } from "lucide-react";
 import dayjs from "dayjs";
 import Skeleton from "../ui/Skeleton";
+import type { TodoItemProps } from "./type";
 
 const DATETIME_FORMAT = "D MMMM YYYY";
 
@@ -20,8 +20,6 @@ const updateTodoFieldValuesSchema = z.object({
 });
 
 type UpdateTodoFieldValues = z.infer<typeof updateTodoFieldValuesSchema>;
-
-type TodoItemProps = { todo: Todo; showDelete?: boolean };
 
 const TodoItem = (props: TodoItemProps) => {
   const [isConfirmDelete, setIsConfirmDelete] = useState<boolean>(false);

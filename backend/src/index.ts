@@ -1,13 +1,10 @@
 import { Hono } from "hono";
-import login from "./controllers/login";
-import logout from "./controllers/logout";
-import register from "./controllers/register";
 import todo from "./controllers/todo";
 import user from "./controllers/user";
 import { HTTPException } from "hono/http-exception";
 import { Response } from "./utils/response";
 import { cors } from "hono/cors";
-import refresh from "./controllers/refresh";
+import auth from "./controllers/auth";
 
 const app = new Hono().basePath("/api");
 
@@ -18,10 +15,7 @@ app.use(
   })
 );
 
-app.route("/", login);
-app.route("/", logout);
-app.route("/", register);
-app.route("/", refresh);
+app.route("/", auth);
 app.route("/", todo);
 app.route("/", user);
 

@@ -47,7 +47,7 @@ const CreateTodoForm = () => {
           {(id) => (
             <>
               <Input type="text" id={id} className="w-full" placeholder="Title" {...register("title")} />
-              {formState.errors.title?.message}
+              <div className="text-sm text-red-500">{formState.errors.title?.message}</div>
             </>
           )}
         </Label>
@@ -57,7 +57,7 @@ const CreateTodoForm = () => {
           {(id) => (
             <>
               <Input type="text" id={id} className="w-full" placeholder="Content" {...register("content")} />
-              {formState.errors.content?.message}
+              <div className="text-sm text-red-500">{formState.errors.content?.message}</div>
             </>
           )}
         </Label>

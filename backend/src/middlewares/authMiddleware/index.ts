@@ -13,9 +13,11 @@ type Variables = {
 const authMiddleware = createMiddleware<{ Variables: Variables }>(
   async (c, next) => {
     const authorizationHeader = c.req.header("Authorization");
+
     if (!authorizationHeader) {
       throw new HTTPException(401, { message: "Unauthorized" });
     }
+
     const [scheme, accessToken] = authorizationHeader.split(" ");
 
     if (scheme !== "Bearer") {

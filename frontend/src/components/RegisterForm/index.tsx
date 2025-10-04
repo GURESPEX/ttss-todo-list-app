@@ -38,6 +38,7 @@ const RegisterForm = () => {
         if (data.values.password !== data.values.confirmPassword) {
           setError("root", { message: "Confirm password is not same as password" });
         } else {
+          console.log(555);
           clearErrors("root");
         }
       },

@@ -61,7 +61,7 @@ export const useAuth = () => {
         return;
       }
 
-      await callback?.(user);
+      await callback(user);
       setState(user);
     },
     [_getUsernameAndAccessTokenByRefreshToken, setState, state],

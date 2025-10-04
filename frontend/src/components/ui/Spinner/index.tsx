@@ -4,7 +4,7 @@ import type { SpinnerProps } from "./type";
 import type { ClassValue } from "clsx";
 
 const Spinner = ({ color = "default", className, ...props }: SpinnerProps) => {
-  return <div className={cn("aspect-square animate-spin rounded-xs", spinnerTailwindSizeMap[props.size ?? "medium"], spinnerTailwindColorMap[color], className)} />;
+  return <div className={cn("animate-spin rounded-xs", spinnerTailwindSizeMap[props.size ?? "medium"], spinnerTailwindColorMap[color], className)} />;
 };
 
 const spinnerTailwindColorMap: Record<Exclude<SpinnerProps["color"], undefined>, ClassValue> = {
@@ -16,9 +16,9 @@ const spinnerTailwindColorMap: Record<Exclude<SpinnerProps["color"], undefined>,
 };
 
 const spinnerTailwindSizeMap: Record<Exclude<SpinnerProps["size"], undefined>, ClassValue> = {
-  small: "w-3",
-  medium: "w-6",
-  large: "w-8",
+  small: "size-3",
+  medium: "size-6",
+  large: "size-8",
 };
 
 export default React.memo(Spinner);

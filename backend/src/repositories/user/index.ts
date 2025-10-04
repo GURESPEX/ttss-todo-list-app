@@ -20,14 +20,11 @@ export default abstract class UserRepository {
     value: User[T]
   ): Promise<User | undefined> => {
     const foundUser = this._users.find((user) => user[field] === value);
-    if (!foundUser) {
-      return foundUser;
-    }
     return foundUser;
   };
 
   public static create = async (
-    payload: Omit<User, "id" | "created_at" | "updated_at">
+    payload: Pick<User, "username" | "hashed_password">
   ): Promise<User> => {
     const dateNow = dayjs().toDate();
     const createdUser: User = {
@@ -49,7 +46,7 @@ export default abstract class UserRepository {
     if (foundUserIndex < 0) {
       return undefined;
     }
-    const updatedUser = {
+    const updatedUser: User = {
       ...this._users[foundUserIndex],
       ...payload,
       updated_at: dateNow,
@@ -66,7 +63,10 @@ export default abstract class UserRepository {
       (user) => user[field] === value,
       []
     );
-    const deletedUser = this._users.splice(foundUserIndex, 1)[0];
+    const deletedUser: User | undefined = this._users.splice(
+      foundUserIndex,
+      1
+    )[0];
     return deletedUser;
   };
 
@@ -81,7 +81,7 @@ export default abstract class UserRepository {
       return [...result, user];
     }, []);
     this._users = usersAfterDeleted;
-    return usersAfterDeleted;
+    return usersAfterDeleted; // Must return deleted todos not the result after deleted
   };
 }
 

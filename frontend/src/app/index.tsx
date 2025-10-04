@@ -23,8 +23,9 @@ const App = () => {
                 </div>
                 <RegisterForm />
               </div>
-            ) : null}
-            {user ? <TodoList /> : null}
+            ) : (
+              <TodoList />
+            )}
           </>
         ) : (
           <Spinner />

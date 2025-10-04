@@ -24,13 +24,13 @@ export default abstract class TodoRepository {
   };
 
   public static create = async (
-    newTodo: Pick<Todo, "content" | "user_id"> & { title?: Todo["title"] }
+    payload: Pick<Todo, "content" | "user_id"> & { title?: Todo["title"] }
   ): Promise<Todo> => {
     const dateNow = dayjs().toDate();
     const createdTodo: Todo = {
-      ...newTodo,
+      ...payload,
       id: Generator.UUID(),
-      title: newTodo.title || "Untitled",
+      title: payload.title || "Untitled",
       is_done: false,
       created_at: dateNow,
     };
@@ -76,14 +76,14 @@ export default abstract class TodoRepository {
     field: T,
     value: Todo[T]
   ): Promise<Todo[]> => {
-    const deletedTodos = this._todos.reduce<Todo[]>((result, todo) => {
+    const todosAfterDeleted = this._todos.reduce<Todo[]>((result, todo) => {
       if (todo[field] === value) {
         return result;
       }
       return [...result, todo];
     }, []);
-    this._todos = deletedTodos;
-    return deletedTodos;
+    this._todos = todosAfterDeleted;
+    return todosAfterDeleted; // Must return deleted todos not the result after deleted
   };
 }
 

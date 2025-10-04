@@ -7,7 +7,7 @@ const userApi = api.injectEndpoints({
       providesTags: ["user"],
       query: (arg) => {
         return {
-          url: "/me",
+          url: "/users/me",
           method: "get",
           headers: {
             Authorization: `Bearer ${arg.access_token}`,
@@ -19,7 +19,7 @@ const userApi = api.injectEndpoints({
       invalidatesTags: ["user"],
       query: (arg) => {
         return {
-          url: "/me",
+          url: "/users/me",
           method: "put",
           body: {
             username: arg.username,
@@ -35,7 +35,7 @@ const userApi = api.injectEndpoints({
       invalidatesTags: ["user"],
       query: (arg) => {
         return {
-          url: "/me",
+          url: "/users/me",
           method: "delete",
           headers: {
             Authorization: `Bearer ${arg.access_token}`,
